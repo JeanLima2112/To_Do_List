@@ -4,11 +4,33 @@ import {
   Image,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
-  Button
+  Button,
 } from "@chakra-ui/react";
+import {useForm} from 'react-hook-form'
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 export default function SingUp() {
+  const { register, handleSubmit, formState: { errors }, watch } = useForm()
+  const control = Object.keys(errors).length > 0;
+  const watchPassword = watch('password')
+  const onSubmit = (data: object) => {
+    axios.post('http://localhost:3000/users',data,{headers:{'Content-Type':'application/json'}})
+      .then(response => {
+        if (response.status == 201){
+          alert('Usuario criado!')
+        }
+      })
+      .catch( () =>{
+        alert("Erro Na Criação do Usuario!")
+      })
+    
+  }
+  
+ 
   return (
     <Flex
       alignItems="center"
@@ -30,30 +52,47 @@ export default function SingUp() {
         <Flex>
             <FormControl>
             <FormLabel>Name</FormLabel>
-            <Input placeholder="your first name" type="email" />
+            <Input placeholder="your first name" type="name"  />
             </FormControl>
         </Flex>
         <Flex>
-            <FormControl>
+            <FormControl isInvalid = {control}>
             <FormLabel>Username</FormLabel>
-            <Input placeholder="create a username" type="email" />
+            <Input  placeholder="create a username" type="username" {...register('username',{required:true,minLength:3})}/>
+            {errors?.username?.type === 'minLength' && (<FormErrorMessage>Username must have at least 3 characters.</FormErrorMessage>)}
+            {errors?.username?.type === 'required' && (<FormErrorMessage>Username is required.</FormErrorMessage>)} 
+            
             </FormControl>
         </Flex>
         <Flex>
-            <FormControl>
+            <FormControl isInvalid = {control}>
             <FormLabel>Password</FormLabel>
-            <Input placeholder="create a Password" type="email" />
+            <Input  placeholder="create a Password" type="password" {...register('password',{required:true,minLength:8})} />
+            {errors?.password?.type === 'required' && (<FormErrorMessage>Password is required.</FormErrorMessage>)}
+            {errors?.password?.type === 'minLength' && (<FormErrorMessage>Password must have at least 8 characters.</FormErrorMessage>)}
+            </FormControl>
+        </Flex>
+        <Flex>
+            <FormControl isInvalid = {control}>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input placeholder="enter password again" type="password" {...register('passwordConfirmation',{required:true, validate:(value)=> value === watchPassword})} />
+            {errors?.passwordConfirmation?.type === 'required' && (<FormErrorMessage>Password confirmation is required.</FormErrorMessage>)}
+            {errors?.passwordConfirmation?.type === 'validate' && (<FormErrorMessage>Passwords does not match.</FormErrorMessage>)}
+            
             </FormControl>
         </Flex>
         <Flex justifyContent='space-between'> 
-            <Button colorScheme='teal' variant='link'>
-                Sing In 
+            <Button colorScheme='teal' variant='link'  >
+                <Link to='singin'>
+                  Sing In
+                </Link>
             </Button>
-            <Button colorScheme='teal' variant='solid'>
+            <Button colorScheme='teal' variant='solid' onClick={()=> handleSubmit(onSubmit)()}>
                 Save
             </Button>
         </Flex>
-    </Flex>
+      </Flex>
     </Flex>
   );
+  
 }
