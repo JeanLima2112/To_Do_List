@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react"
+import {Flex} from "@chakra-ui/react";
 import Header from "../../components/header/Header"
 import String from "../../components/phrase/String"
 import axios from "axios"
@@ -6,6 +6,7 @@ import {useEffect, useState } from "react";
 import { PhraseProps } from "../../types/Phrase";
 import Search from "../../components/search/Search";
 import TaskCard from "../../components/cards/TaskCard";
+
 
 
 
