@@ -10,18 +10,26 @@ import {
 } from "@chakra-ui/react";
 import {useForm} from 'react-hook-form'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setToken } from "../login/tokenManager";
 
 
 export default function SingUp() {
   const { register, handleSubmit, formState: { errors }, watch } = useForm()
   const control = Object.keys(errors).length > 0;
+  const navigate = useNavigate();
   const watchPassword = watch('password')
+  console.log(errors)
   const onSubmit = (data: object) => {
     axios.post('http://localhost:3000/users',data,{headers:{'Content-Type':'application/json'}})
       .then(response => {
         if (response.status == 201){
           alert('Usuario criado!')
+          axios.post('http://localhost:3000/auth/login',data,{headers:{'Content-Type':'application/json'}})
+          const token = response.data.token;
+          setToken(token);  
+          console.log(token);
+          navigate('/home');
         }
       })
       .catch( () =>{
@@ -50,9 +58,11 @@ export default function SingUp() {
             <Text color="#319795" fontSize="1.5rem">Sing Up</Text>
         </Flex>
         <Flex>
-            <FormControl>
+            <FormControl isInvalid = {control}>
             <FormLabel>Name</FormLabel>
-            <Input placeholder="your first name" type="name"  />
+            <Input placeholder="your first name" type="name" {...register('name',{required:true,minLength:3})}  />
+            {errors?.name?.type === 'minLength' && (<FormErrorMessage>Name must have at least 3 characters.</FormErrorMessage>)}
+            {errors?.name?.type === 'required' && (<FormErrorMessage>Name is required.</FormErrorMessage>)} 
             </FormControl>
         </Flex>
         <Flex>

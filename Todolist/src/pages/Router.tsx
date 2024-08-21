@@ -6,8 +6,8 @@ import SingIn from "./login/SingIn"
 const Router = () => {
     return(
         <Routes>
-            <Route path="" element = {<Home />} />
-            <Route path="/singUp" element = {<SingUp />} />
+            <Route path="home" element = {<Home />} />
+            <Route path="/" element = {<SingUp />} />
             <Route path="/singin" element = {<SingIn />} />
 
         </Routes>

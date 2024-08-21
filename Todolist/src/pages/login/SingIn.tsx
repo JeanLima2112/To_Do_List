@@ -10,18 +10,26 @@ import {
 } from "@chakra-ui/react";
 import {useForm} from 'react-hook-form'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setToken } from "./tokenManager";
 
 
 export default function SingIN() {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const control = Object.keys(errors).length > 0;
+  const navigate = useNavigate();
   const onSubmit = (data: object) => {
     axios.post('http://localhost:3000/auth/login',data,{headers:{'Content-Type':'application/json'}})
       .then(response => {
 
         if (response.status == 200){
           alert('Log in Realizado!')
+          const token = response.data.token;
+          setToken(token);  
+          console.log(token);
+          navigate('/home');
+
+          
         }
       })
       .catch( () =>{
