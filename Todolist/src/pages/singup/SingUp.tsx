@@ -145,7 +145,7 @@ export default function SingUp() {
         </Flex>
         <Flex justifyContent="space-between">
           <Button colorScheme="teal" variant="link">
-            <Link to="singin">Sing In</Link>
+            <Link to="/singin">Sing In</Link>
           </Button>
           <Button
             colorScheme="teal"
