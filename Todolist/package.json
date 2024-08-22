@@ -1,5 +1,4 @@
 {
-  "SingUp": "https://JeanLima2112.github.io/To_Do_List_Front-End",
   "name": "todolist",
   "private": true,
   "version": "0.0.0",
@@ -8,9 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
@@ -19,7 +16,6 @@
     "axios": "^1.7.4",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.28",
-    "gh-pages": "^6.1.1",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
