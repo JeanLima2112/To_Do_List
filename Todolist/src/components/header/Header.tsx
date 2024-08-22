@@ -50,6 +50,7 @@ import {
         console.error('Erro ao criar a tarefa:', error);
         alert('Ocorreu um erro ao criar a tarefa. Por favor, tente novamente.');
       });
+      location.reload()
     }
   
     const { isOpen, onOpen, onClose } = useDisclosure();
