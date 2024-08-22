@@ -7,6 +7,18 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  FormErrorMessage,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { IoIosMore } from "react-icons/io";
 import { TaskProps } from "../../types/task";
@@ -15,6 +27,8 @@ import axios from "axios";
 import { getToken } from "../../pages/login/tokenManager";
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { Controller, useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
 export default function TaskCard({
   id,
   title,
@@ -22,9 +36,16 @@ export default function TaskCard({
   status,
   expirationDate,
 }: TaskProps) {
-  const [mark, setMark] = useState<boolean>(false);
-  const [color, setColor] = useState<string>('#f6f6f6');
-
+  const [mark, setMark] = useState<boolean>(true);
+  const [color, setColor] = useState<string>("#f6f6f6");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<TaskProps>();
 
   const formattedDate = expirationDate
     ? format(new Date(expirationDate), "dd MMM yyyy")
@@ -35,7 +56,7 @@ export default function TaskCard({
         Authorization: `Bearer ${getToken()}`,
       },
     });
-    location.reload()
+    location.reload();
 
     if (response.data.status === "TO_DO") {
       response.data.status = `${"DONE"}`;
@@ -48,7 +69,7 @@ export default function TaskCard({
         Authorization: `Bearer ${getToken()}`,
       },
     });
-    location.reload()
+    location.reload();
   };
   const delTask = async (id: string) => {
     await axios
@@ -58,20 +79,26 @@ export default function TaskCard({
           Authorization: `Bearer ${getToken()}`,
         },
       })
-      .then((response) => {
-        if (response.status == 200) {
-          alert("Apagado");
-        }
-      })
+      .then()
       .catch(() => {
         alert("Erro!");
       });
-      location.reload()
-      
+    location.reload();
   };
   useEffect(() => {
     verify();
-  }, []);
+    if (isOpen) {
+      loadTask();
+    }
+  }, [isOpen]);
+  const loadTask = async () => {
+    const response = await axios.get(`http://localhost:3000/task/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    reset(response.data);
+  };
   const verify = async () => {
     const response = await axios.get(`http://localhost:3000/task/${id}`, {
       headers: {
@@ -82,12 +109,31 @@ export default function TaskCard({
     if (response.data.status === "TO_DO") {
       response.data.status = `${"DONE"}`;
       setMark(true);
-      setColor('#f6f6f6')
+      setColor("#f6f6f6");
     } else {
       response.data.status = `${"TO_DO"}`;
       setMark(false);
-      setColor('#a6eb9f')
+      setColor("#a6eb9f");
     }
+  };
+  const onSubmit = (data: TaskProps) => {
+    axios
+      .put(`http://localhost:3000/task/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          onClose();
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao criar a tarefa:", error);
+      
+      });
+    location.reload();
   };
 
   return (
@@ -99,6 +145,7 @@ export default function TaskCard({
       p="1.5rem"
       borderRadius="1rem"
       boxShadow="md"
+      transition=".5s"
     >
       <Flex justifyContent="flex-end">
         <Menu>
@@ -107,15 +154,14 @@ export default function TaskCard({
             bg="none"
             _hover={{ bg: "transparent" }}
             _active={{ bg: "transparent" }}
-          
           >
             <IoIosMore fontSize="1.5rem" />
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={() => console.log(`Delete task ${id}`)}>
-              Edit
+            <MenuItem onClick={onOpen}>Edit</MenuItem>
+            <MenuItem gap="1rem" onClick={() => delTask(id)}>
+              Delete <FaTrash color="red" />
             </MenuItem>
-            <MenuItem  gap='1rem' onClick={() => delTask(id)}>Delete <FaTrash color="red" /></MenuItem>
           </MenuList>
         </Menu>
       </Flex>
@@ -138,6 +184,77 @@ export default function TaskCard({
           />
         </Flex>
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit a Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl isInvalid={!!errors.title}>
+              <FormLabel>Title</FormLabel>
+              <Input
+                {...register("title", {
+                  required: "Title is required",
+                  minLength: {
+                    value: 3,
+                    message: "Title must be at least 3 characters long",
+                  },
+                })}
+              />
+              {errors.title && (
+                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              )}
+            </FormControl>
+
+            <FormControl mt={4} isInvalid={!!errors.description}>
+              <FormLabel>Description</FormLabel>
+              <Input
+                {...register("description", {
+                  minLength: {
+                    value: 3,
+                    message: "Description must be at least 3 characters long",
+                  },
+                })}
+              />
+              {errors.description && (
+                <FormErrorMessage>
+                  {errors.description.message}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+
+            <FormControl mt={4} isInvalid={!!errors.expirationDate}>
+              <FormLabel>Date</FormLabel>
+              <Controller
+                name="expirationDate"
+                control={control}
+                rules={{ required: "Date is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <DatePicker
+                    selected={value ? new Date(value) : null}
+                    onChange={(date) => onChange(date)}
+                    dateFormat="yyyy/MM/dd"
+                    minDate={new Date()}
+                    customInput={<Input />}
+                  />
+                )}
+              />
+              {errors.expirationDate && (
+                <FormErrorMessage>
+                  {errors.expirationDate.message}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit(onSubmit)}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 }

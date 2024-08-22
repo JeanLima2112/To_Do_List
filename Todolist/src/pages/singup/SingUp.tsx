@@ -31,7 +31,6 @@ export default function SingUp() {
       })
       .then((response) => {
         if (response.status == 201) {
-          alert("Usuario criado!");
           axios
             .post("http://localhost:3000/auth/login", data, {
               headers: { "Content-Type": "application/json" },

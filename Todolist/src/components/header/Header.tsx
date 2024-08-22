@@ -42,7 +42,6 @@ import {
       })
       .then(response => {
         if (response.status === 201) {
-          alert('Tarefa criada com sucesso!');
           onClose();
         }
       })

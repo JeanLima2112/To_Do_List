@@ -23,10 +23,8 @@ export default function SingIN() {
       .then(response => {
 
         if (response.status == 200){
-          alert('Log in Realizado!')
           const token = response.data.token;
           setToken(token);  
-          console.log(token);
           navigate('/home');
 
           
