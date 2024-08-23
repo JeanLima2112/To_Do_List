@@ -3,25 +3,25 @@ import Header from "../../components/header/Header";
 import String from "../../components/phrase/String";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PhraseProps } from "../../types/Phrase";
 import Search from "../../components/search/Search";
 import TaskCard from "../../components/cards/TaskCard";
-import { getToken } from "../login/tokenManager";
+import { getToken, getUserID } from "../login/tokenManager";
 import { TaskProps } from "../../types/task";
 
 
 export default function Home() {
-  const [phrase, setPhrase] = useState<PhraseProps>();
   const [tasks, setTasks] = useState<TaskProps[]>([]); 
 
   useEffect(() => {
-    getPhrase();
     loadTasks();
   }, []);
 
   const loadTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/task", {
+      const response = await axios.get('http://localhost:3000/task', {
+        params: {
+          user_id: `${getUserID()}`
+        },
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -35,15 +35,7 @@ export default function Home() {
     }
   };
 
-  const getPhrase = (): Promise<void> => {
-    return axios.get("https://api.adviceslip.com/advice").then((res) => {
-      const { advice } = res.data.slip;
-      const phraseData: PhraseProps = {
-        advice,
-      };
-      setPhrase(phraseData);
-    });
-  };
+  
 
   return (
     <Flex
@@ -55,7 +47,7 @@ export default function Home() {
       alignItems="center"
     >
       <Header />
-      {phrase && <String {...phrase} />}
+      <String/>
       <Search />
       <Flex
         w="100%"
@@ -67,6 +59,7 @@ export default function Home() {
         {tasks.map((task) => (
           <TaskCard 
             key={task.id}
+            user_id={task.user_id}
             id={task.id}
             title={task.title}
             description={task.description}

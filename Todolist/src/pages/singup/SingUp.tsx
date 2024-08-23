@@ -11,7 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "../login/tokenManager";
+import { setPhrase, setToken, setUserId, setUserName } from "../login/tokenManager";
 
 export default function SingUp() {
   const {
@@ -30,6 +30,11 @@ export default function SingUp() {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
+        const user_id = response.data.id
+        setUserId(user_id)
+        const username = response.data.name
+        setPhrase()
+        setUserName(username)
         if (response.status == 201) {
           axios
             .post("http://localhost:3000/auth/login", data, {
@@ -38,7 +43,6 @@ export default function SingUp() {
             .then((response) => {
               const token = response.data.token;
               setToken(token);
-              console.log(token);
               navigate("/home");
             });
         }

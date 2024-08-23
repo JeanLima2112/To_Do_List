@@ -11,7 +11,7 @@ import {
 import {useForm} from 'react-hook-form'
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken } from "./tokenManager";
+import { setPhrase, setToken, setUserId, setUserName } from "./tokenManager";
 
 
 export default function SingIN() {
@@ -25,6 +25,11 @@ export default function SingIN() {
         if (response.status == 200){
           const token = response.data.token;
           setToken(token);  
+          const user_id = response.data.id
+          setUserId(user_id)
+          const username = response.data.name
+          setPhrase()
+          setUserName(username)
           navigate('/home');
 
           
