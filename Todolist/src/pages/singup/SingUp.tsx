@@ -23,7 +23,6 @@ export default function SingUp() {
   const control = Object.keys(errors).length > 0;
   const navigate = useNavigate();
   const watchPassword = watch("password");
-  console.log(errors);
   const onSubmit = (data: object) => {
     axios
       .post("http://localhost:3000/users", data, {
