@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cadastrar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input type="text" required [(ngModel)]="name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">username</ion-label>
+      <ion-input type="name" required [(ngModel)]="username" name="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Cadastrar</ion-button>
+    <ion-button expand="full" (click)="goToLogin()">Voltar ao Login</ion-button>
+  </form>
+</ion-content>

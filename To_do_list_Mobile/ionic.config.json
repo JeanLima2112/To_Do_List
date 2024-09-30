@@ -1,5 +1,7 @@
 {
   "name": "To_do_list_Mobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
