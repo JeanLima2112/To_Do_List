@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: To_Do_List_api_db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: To_Do_List_Api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
