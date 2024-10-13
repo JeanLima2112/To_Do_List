@@ -1,18 +1,51 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Tarefas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <!-- <ion-list>
-    <ion-item-divider color="light">
-      <ion-label>Minhas Tarefas</ion-label>
-    </ion-item-divider>
-    <ion-item *ngFor="let task of tasks">
-      <ion-label>{{ task.title }}</ion-label>
-    </ion-item>
-  </ion-list> -->
+  <ion-list>
+    <ion-item-sliding *ngFor="let task of tasks" lines="full" class="task-item">
+      <ion-item>
+        <ion-label>
+          <h2 class="task-title">{{ task.title }}</h2>
+          <p class="task-description">{{ task.description }}</p>
+          <p class="task-info">
+            <strong>Data de Vencimento:</strong> {{ task.expirationDate | date: 'dd/MM/yyyy' }}
+          </p>
+          <p class="task-info">
+            <strong>Status:</strong>
+            <span
+              [ngClass]="{'status-todo': task.status === 'TO_DO', 'status-done': task.status === 'DONE'}"
+            >
+              {{ task.status }}
+            </span>
+          </p>
+        </ion-label>
+  
+        <ion-checkbox
+          slot="start"
+          [checked]="task.status === 'DONE'"
+          (ionChange)="updateTaskStatus(task)"
+        ></ion-checkbox>
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option color="danger" *ngIf="task.id" (click)="deleteTask(task.id)">
+          <ion-icon name="trash"></ion-icon> 
+        </ion-item-option>
+        <ion-item-option color="primary" (click)="editTask(task)">
+          <ion-icon name="create"></ion-icon> 
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="showAlert()">
