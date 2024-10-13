@@ -29,8 +29,6 @@ export class AuthService {
   loginAndStore(username: string, password: string): void {
     this.login(username, password).subscribe({
       next: (response) => {
-        console.log('Login bem-sucedido:', response);
-
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.id);
       },

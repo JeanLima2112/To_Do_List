@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Task } from './task.model';
@@ -7,12 +7,18 @@ import { Task } from './task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:3000/tasks';
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl); 
+  getTasks(userId: string| null): Observable<Task[]> {
+    const token = localStorage.getItem('token'); 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`, 
+      'Content-Type': 'application/json' 
+    });
+
+    return this.http.get<Task[]>(`${this.apiUrl}/task?params=${userId}`, { headers }); 
   }
 
   createTask(task: Task): Observable<Task> {

@@ -14,15 +14,8 @@ export class LoginPage {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.authService.login(this.username, this.password).subscribe(
-      (response) => {
-        console.log('Login bem-sucedido!', response);
-        this.router.navigate(['/home']);  
-      },
-      (error) => {
-        console.error('Erro no login', error);
-      }
-    );
+    this.authService.loginAndStore(this.username, this.password); 
+    this.router.navigate(['/home']);  
   }
 
   goToRegister() {
