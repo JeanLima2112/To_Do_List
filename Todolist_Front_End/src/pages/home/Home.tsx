@@ -48,7 +48,7 @@ export default function Home() {
     >
       <Header />
       <String/>
-      <Search />
+      {/* <Search /> */}
       <Flex
         w="100%"
         wrap="wrap"
