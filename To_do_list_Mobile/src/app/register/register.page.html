@@ -1,24 +1,71 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Cadastrar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding form-content">
   <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-    <ion-item>
+    <ion-item class="input-item">
       <ion-label position="floating">Nome</ion-label>
-      <ion-input type="text" required [(ngModel)]="name" name="name"></ion-input>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-input
+        type="text"
+        required
+        [(ngModel)]="name"
+        name="name"
+      ></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">username</ion-label>
-      <ion-input type="name" required [(ngModel)]="username" name="username"></ion-input>
+
+    <ion-item class="input-item">
+      <ion-label position="floating">Username</ion-label>
+      <ion-icon name="at-outline" slot="start"></ion-icon>
+      <ion-input
+        type="text"
+        required
+        [(ngModel)]="username"
+        name="username"
+      ></ion-input>
     </ion-item>
-    <ion-item>
+
+    <ion-item class="input-item">
       <ion-label position="floating">Senha</ion-label>
-      <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-input
+        type="password"
+        required
+        [(ngModel)]="password"
+        name="password"
+      ></ion-input>
     </ion-item>
-    <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Cadastrar</ion-button>
-    <ion-button expand="full" (click)="goToLogin()">Voltar ao Login</ion-button>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button
+            expand="block"
+            color="success"
+            type="submit"
+            [disabled]="!registerForm.valid"
+          >
+            <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+            Cadastrar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-button
+            expand="block"
+            fill="outline"
+            color="dark"
+            (click)="goToLogin()"
+          >
+            <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+            Voltar ao Login
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
 </ion-content>

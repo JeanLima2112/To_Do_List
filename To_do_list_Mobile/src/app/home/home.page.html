@@ -1,14 +1,45 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar color="primary">
-    <ion-title>
-      Tarefas
-    </ion-title>
+    <ion-title>Tarefas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-fab vertical="bottom" horizontal="end" slot=""fixed>
-    <ion-fab-button >
+<ion-content [fullscreen]="true" color="light">
+  <ion-list>
+    <ion-item-divider color="light">
+      <ion-label>Minhas Tarefas</ion-label>
+    </ion-item-divider>
+    <ion-card *ngFor="let task of tasks" style="width: 100%; box-shadow: none;">
+      <ion-card-header>
+        <ion-card-title>{{ task.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ task.description }}</p>
+        <p>
+          <strong>Data de Vencimento:</strong>
+          {{ task.expirationDate | date: 'dd/MM/yyyy' }}
+        </p>
+        <p><strong>Status:</strong> {{ task.status }}</p>
+      </ion-card-content>
+      <div style=" display: flex; justify-content: space-between;">
+        <ion-button fill="outline" (click)="editTask(task)">
+          <ion-icon name="create"></ion-icon>
+          Editar
+        </ion-button>
+        <ion-button fill="outline" color="danger" (click)="task.id ? deleteTask(task.id) : null">
+          <ion-icon name="trash"></ion-icon>
+          Deletar
+        </ion-button>
+        <ion-button fill="outline" (click)="completeTask(task)">
+          <ion-icon name="checkmark"></ion-icon>
+          Concluir
+        </ion-button>
+      </div>
+    </ion-card>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addTask()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

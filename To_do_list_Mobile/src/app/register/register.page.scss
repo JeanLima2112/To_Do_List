@@ -1,0 +1,31 @@
+.form-content {
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .input-item {
+    margin-bottom: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    --background: #ffffff;
+  }
+  
+  ion-input, ion-icon {
+    color: #333;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  ion-button:hover {
+    transform: translateY(-2px);
+  }
+  
+  ion-button:active {
+    transform: scale(0.98);
+  }
+  
