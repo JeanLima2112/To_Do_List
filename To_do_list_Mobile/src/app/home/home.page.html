@@ -10,8 +10,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="filterTasks()">
+    <ion-segment-button value="all">
+      Todas
+    </ion-segment-button>
+    <ion-segment-button value="to_do">
+      Em Aberto
+    </ion-segment-button>
+    <ion-segment-button value="done">
+      Concluídas
+    </ion-segment-button>
+  </ion-segment>
+
   <ion-list>
-    <ion-item-sliding *ngFor="let task of tasks" lines="full" class="task-item">
+    <ion-item-sliding *ngFor="let task of filteredTasks" lines="full" class="task-item">
       <ion-item>
         <ion-label>
           <h2 class="task-title">{{ task.title }}</h2>

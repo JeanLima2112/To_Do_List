@@ -11,9 +11,8 @@ import { Task } from './task.model';
 })
 export class HomePage {
   tasks: Task[] = [];
-  isPopoverOpen = false;
-  popoverEvent: Event | null = null;
-  selectedTask: Task | null = null;
+  filteredTasks: Task[] = [];
+  selectedSegment: string = 'all';
 
   constructor(
     private taskService: TaskService,
@@ -31,9 +30,21 @@ export class HomePage {
     if (userId) {
       this.taskService.getTasks(userId).subscribe((tasks) => {
         this.tasks = tasks;
+        this.filterTasks(); 
       });
     }
   }
+
+  filterTasks() {
+    if (this.selectedSegment === 'to_do') {
+      this.filteredTasks = this.tasks.filter(task => task.status === 'TO_DO');
+    } else if (this.selectedSegment === 'done') {
+      this.filteredTasks = this.tasks.filter(task => task.status === 'DONE');
+    } else {
+      this.filteredTasks = this.tasks; 
+    }
+  }
+
   async showToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
@@ -43,9 +54,10 @@ export class HomePage {
     });
     await toast.present();
   }
+
   updateTaskStatus(task: Task) {
     task.status = task.status === 'TO_DO' ? 'DONE' : 'TO_DO';
-    this.taskService.updateTask(task).subscribe((updatedTask) => {
+    this.taskService.updateTask(task).subscribe(() => {
       this.loadTasks();
     });
   }
@@ -56,9 +68,76 @@ export class HomePage {
       this.loadTasks();
     });
   }
-  
-  editTask(task: Task) {
-    console.log('Editar tarefa:', task);
+
+  async editTask(task: Task) {
+    const alert = await this.alertController.create({
+      header: 'Editar Tarefa',
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          placeholder: 'Título da tarefa',
+          value: task.title, 
+          cssClass: 'alert-input',
+          attributes: {
+            required: true,
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          placeholder: 'Descrição da tarefa',
+          value: task.description, 
+          cssClass: 'alert-textarea',
+          attributes: {
+            required: true,
+          },
+        },
+        {
+          name: 'expirationDate',
+          type: 'date',
+          placeholder: 'Data de Vencimento',
+          value: task.expirationDate, 
+          cssClass: 'alert-input',
+          attributes: {
+            required: true,
+          },
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Salvar',
+          cssClass: 'alert-button-save',
+          handler: (data) => {
+            if (!data.title || !data.description || !data.expirationDate) {
+              this.showToast('Por favor, preencha todos os campos.'); 
+              return false; 
+            }
+
+            const updatedTask: Task = {
+              ...task,
+              title: data.title,
+              description: data.description,
+              expirationDate: data.expirationDate,
+            };
+
+            this.taskService.updateTask(updatedTask).subscribe(() => {
+              this.loadTasks();
+              this.showToast('Tarefa atualizada com sucesso!');
+            });
+
+            return true;
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   logout() {
@@ -108,7 +187,6 @@ export class HomePage {
           text: 'Adicionar',
           cssClass: 'alert-button-add',
           handler: (data) => {
-   
             if (!data.title || !data.description || !data.expirationDate) {
               this.showToast('Por favor, preencha todos os campos.'); 
               return false; 
@@ -124,9 +202,9 @@ export class HomePage {
   
             this.taskService.createTask(newTask).subscribe(() => {
               this.loadTasks();
+              this.showToast('Tarefa adicionada com sucesso!');
             });
   
-          
             return true;
           },
         },
