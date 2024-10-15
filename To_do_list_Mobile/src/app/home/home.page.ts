@@ -4,6 +4,7 @@ import { TaskService } from './task.service';
 import { Router } from '@angular/router';
 import { Task } from './task.model';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -31,6 +32,7 @@ export class HomePage {
       this.taskService.getTasks(userId).subscribe((tasks) => {
         this.tasks = tasks;
         this.filterTasks(); 
+        
       });
     }
   }

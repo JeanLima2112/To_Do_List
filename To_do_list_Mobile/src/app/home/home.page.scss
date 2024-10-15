@@ -69,29 +69,4 @@
     --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
   }
   
-  .alert-input, .alert-textarea {
-    border: 1px solid #ccc; 
-    border-radius: 8px; 
-    padding: 10px; 
-    margin-bottom: 15px; 
-    transition: border 0.3s; 
-  }
-  
-  .alert-input:focus, .alert-textarea:focus {
-    border-color: #007bff; 
-  }
-  
-  .alert-button-cancel {
-    background-color: #f44336; 
-    color: #fff; 
-  }
-  
-  .alert-button-add {
-    background-color: #4CAF50; 
-    color: #fff; 
-  }
-  
-  .alert-button-add:hover {
-    background-color: #45a049; 
-  }
   

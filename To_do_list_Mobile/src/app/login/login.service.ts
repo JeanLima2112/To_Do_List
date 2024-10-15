@@ -31,6 +31,7 @@ export class AuthService {
       next: (response) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('userId', response.id);
+        window.location.reload(); // Gambiarra
       },
       error: (error) => {
         console.error('Erro ao fazer login:', error);

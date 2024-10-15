@@ -35,3 +35,66 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+.alert-input,
+.alert-textarea {
+  border: 1px solid #ddd; /* Borda mais clara para um visual mais moderno */
+  border-radius: 8px; 
+  padding: 12px; /* Aumente o padding para maior conforto */
+  margin-bottom: 20px; /* Maior espaçamento entre os elementos */
+  font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
+  transition: all 0.3s ease; /* Transição suave para foco e interação */
+  background-color: #f9f9f9; /* Fundo levemente cinza para destacar o campo */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna leve */
+}
+
+.alert-input:focus,
+.alert-textarea:focus {
+  border-color: #007bff; /* Cor de foco para destacar o campo */
+  background-color: #fff; /* Fundo branco ao focar */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Sombra externa para foco */
+}
+
+.alert-button-cancel {
+  background-color: #f44336; 
+  color: #fff;
+  border: none;
+  border-radius: 8px; 
+  padding: 12px 20px; 
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.alert-button-cancel:hover {
+  background-color: #d32f2f; 
+  box-shadow: 0 4px 8px rgba(211, 47, 47, 0.2); 
+}
+
+.alert-button-add {
+  background-color: #4CAF50; 
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.alert-button-add:hover {
+  background-color: #45a049; 
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2); 
+}
+
+.alert-button-add:active {
+  background-color: #388e3c; 
+  box-shadow: 0 2px 4px rgba(56, 142, 60, 0.2); 
+}
+
+.alert-button-cancel:active {
+  background-color: #c62828; 
+  box-shadow: 0 2px 4px rgba(198, 40, 40, 0.2); 
+}
