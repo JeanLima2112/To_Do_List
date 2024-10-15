@@ -17,11 +17,12 @@ export class TaskService {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-
-    return this.http.get<Task[]>(`${this.apiUrl}/?params=${userId}`, {
+  
+    const params = `?user_id=${userId}`;
+  
+    return this.http.get<Task[]>(`${this.apiUrl}${params}`, {
       headers,
     });
-    
   }
 
   createTask(task: Task): Observable<Task> {
