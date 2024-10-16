@@ -26,16 +26,20 @@ export class AuthService {
     return this.http.post<AuthResponse>(this.apiUrl, body, { headers });
   }
 
-  loginAndStore(username: string, password: string): void {
-    this.login(username, password).subscribe({
-      next: (response) => {
-        window.location.reload(); // Gambiarra
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('userId', response.id);
-      },
-      error: (error) => {
-        console.error('Erro ao fazer login:', error);
-      },
+  loginAndStore(username: string, password: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.login(username, password).subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.id);
+          resolve(); 
+        },
+        error: (error) => {
+          console.error('Erro ao fazer login:', error);
+          reject(error); 
+        },
+      });
     });
   }
+  
 }
