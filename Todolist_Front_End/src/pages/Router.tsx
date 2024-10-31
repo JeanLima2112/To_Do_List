@@ -7,7 +7,7 @@ const Router = () => {
     return(
         <Routes>
             <Route path="/home" element = {<Home />} />
-            <Route path="/To_Do_List/tree/main/Todolist_Front_End" element = {<SingUp />} />
+            <Route path="/To_Do_List/tree/main/Todolist_Front_End/" element = {<SingUp />} />
             <Route path="/singin" element = {<SingIn />} />
 
         </Routes>
