@@ -51,7 +51,7 @@ export default function TaskCard({
     ? format(new Date(expirationDate), "dd MMM yyyy")
     : "No Date";
   const markTask = async (id: string) => {
-    const response = await axios.get(`http://localhost:3000/task/${id}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/task/${id}`, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -64,7 +64,7 @@ export default function TaskCard({
       response.data.status = `${"TO_DO"}`;
     }
 
-    await axios.put(`http://localhost:3000/task/${id}`, response.data, {
+    await axios.put(`${import.meta.env.VITE_API_URL}/task/${id}`, response.data, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -73,7 +73,7 @@ export default function TaskCard({
   };
   const delTask = async (id: string) => {
     await axios
-      .delete(`http://localhost:3000/task/${id}`, {
+      .delete(`${import.meta.env.VITE_API_URL}/task/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getToken()}`,
@@ -92,7 +92,7 @@ export default function TaskCard({
     }
   }, [isOpen]);
   const loadTask = async () => {
-    const response = await axios.get(`http://localhost:3000/task/${id}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/task/${id}`, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -100,7 +100,7 @@ export default function TaskCard({
     reset(response.data);
   };
   const verify = async () => {
-    const response = await axios.get(`http://localhost:3000/task/${id}`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/task/${id}`, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
@@ -118,7 +118,7 @@ export default function TaskCard({
   };
   const onSubmit = (data: TaskProps) => {
     axios
-      .put(`http://localhost:3000/task/${id}`, data, {
+      .put(`${import.meta.env.VITE_API_URL}/task/${id}`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getToken()}`,

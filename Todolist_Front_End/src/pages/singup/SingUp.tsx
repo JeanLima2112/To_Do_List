@@ -25,7 +25,7 @@ export default function SingUp() {
   const watchPassword = watch("password");
   const onSubmit = (data: object) => {
     axios
-      .post("http://localhost:3000/users", data, {
+      .post(`${import.meta.env.VITE_API_URL}/users`, data, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
@@ -36,7 +36,7 @@ export default function SingUp() {
         setUserName(username)
         if (response.status == 201) {
           axios
-            .post("http://localhost:3000/auth/login", data, {
+            .post(`${import.meta.env.VITE_API_URL}/auth/login`, data, {
               headers: { "Content-Type": "application/json" },
             })
             .then((response) => {

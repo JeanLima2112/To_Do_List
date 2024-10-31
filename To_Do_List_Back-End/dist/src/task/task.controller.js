@@ -16,7 +16,6 @@ exports.TaskController = void 0;
 const common_1 = require("@nestjs/common");
 const task_dto_1 = require("./task.dto");
 const task_service_1 = require("./task.service");
-const auth_guard_1 = require("../auth/auth.guard");
 let TaskController = class TaskController {
     constructor(taskService) {
         this.taskService = taskService;
@@ -75,7 +74,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TaskController.prototype, "remove", null);
 exports.TaskController = TaskController = __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('task'),
     __metadata("design:paramtypes", [task_service_1.TaskService])
 ], TaskController);

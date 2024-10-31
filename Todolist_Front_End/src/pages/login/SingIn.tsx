@@ -19,7 +19,7 @@ export default function SingIN() {
   const control = Object.keys(errors).length > 0;
   const navigate = useNavigate();
   const onSubmit = (data: object) => {
-    axios.post('http://localhost:3000/auth/login',data,{headers:{'Content-Type':'application/json'}})
+    axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,data,{headers:{'Content-Type':'application/json'}})
       .then(response => {
 
         if (response.status == 200){

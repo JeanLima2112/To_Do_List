@@ -13,7 +13,7 @@ import { FindAllParameters, TaskDto, TaskRouteParameters } from './task.dto';
 import { TaskService } from './task.service';
 import { AuthGuard } from '../auth/auth.guard';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}

@@ -41,7 +41,7 @@ export default function Header() {
   const onSubmit = (data: TaskProps) => {
     data.user_id = `${getUserID()}`;
     axios
-      .post("http://localhost:3000/task", data, {
+      .post(`${import.meta.env.VITE_API_URL}/task`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getToken()}`,
