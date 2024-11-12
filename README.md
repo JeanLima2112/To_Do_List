@@ -11,7 +11,7 @@ Este projeto é uma aplicação completa para gerenciamento de tarefas, composta
 
 ## Tecnologias Utilizadas
 
-- **Backend:** [NestJS](https://nestjs.com/)
+- **Backend/Api:** [NestJS](https://nestjs.com/)
 - **Frontend Web:** [React](https://reactjs.org/)
 - **Frontend Mobile:** [Ionic Framework](https://ionicframework.com/)
 - **Banco de Dados:** [PostgreSQL](https://www.postgresql.org/) – utilizado para armazenar dados de tarefas, usuários e autenticação
@@ -27,4 +27,4 @@ Este projeto é uma aplicação completa para gerenciamento de tarefas, composta
 
 O código-fonte completo deste projeto está disponível no GitHub. Acesse através do link abaixo:
 
-- [Gerenciador de Tarefas no GitHub](https://github.com/JeanLima2112/GerenciadorDeTarefas)
+- [Gerenciador de Tarefas no GitHub](https://github.com/JeanLima2112/To_Do_List)
